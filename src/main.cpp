@@ -1,21 +1,28 @@
 #include <iostream>
 
 #include "Data Structures/stack.h"
+//#include "Data Structures/queue.h"
 
 int main()
 {
+    //Testing Stack
     int temp;
-    push(56);
-    push(75);
-    push(86);
-    getTop(&temp);
-    std::cout << temp << std::endl;
-    push(25);
-    push(36);
-    pop(&temp);
 
-    getTop(&temp);
-    std::cout << temp << std::endl;
+    Stack mS;
+    mS.push(56);
+    mS.push(35);
+    mS.getTop(&temp);
+    std::cout << "Top: " << temp << std::endl;
+    mS.pop(&temp);
+    mS.getTop(&temp);
+    std::cout << "Top: " << temp << std::endl;
+
+    //==================================================
+
+    //Testing Queue
+
+
+
 
     return 0;
 }

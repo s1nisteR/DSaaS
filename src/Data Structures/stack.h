@@ -8,48 +8,59 @@ typedef struct node
     struct node* link;
 }node;
 
-node* top = nullptr;
-
-bool push(int data)
+typedef struct Stack
 {
-    node* newItem = new node();
-    if(!newItem)
+    node* top;
+    Stack()
     {
-        return false;
+        this->top = nullptr;
     }
-    newItem->data = data;
-    newItem->link = top;
-    top = newItem;
-    return true;
-}
 
-bool pop(int* returnData)
-{
-    node* temp;
-    if(top == nullptr)
+    bool push(int data)
     {
-        return false;
-    }
-    else
-    {
-        temp = top;
-        *returnData = temp->data;
-        top = top->link;
-        free(temp);
+        node* newItem = new node();
+        if(!newItem)
+        {
+            return false;
+        }
+        newItem->data = data;
+        newItem->link = this->top;
+        this->top = newItem;
         return true;
     }
-}
 
-bool isEmpty() { return top == nullptr; }
-
-bool getTop(int* returnData)
-{
-    if(!isEmpty())
+    bool pop(int* returnData)
     {
-        *returnData = top->data;
-        return true;
+        node* temp;
+        if(this->top == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            temp = this->top;
+            *returnData = temp->data;
+            this->top = this->top->link;
+            free(temp);
+            return true;
+        }
     }
-    return false;
-}
+
+    [[nodiscard]] bool isEmpty() const { return this->top == nullptr; }
+
+    bool getTop(int* returnData) const
+    {
+        if(!isEmpty())
+        {
+            *returnData = top->data;
+            return true;
+        }
+        return false;
+    }
+
+
+}Stack;
+
+
 
 #endif //DSAAS_STACK_H
