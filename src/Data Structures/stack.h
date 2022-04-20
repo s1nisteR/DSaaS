@@ -2,15 +2,15 @@
 #define DSAAS_STACK_H
 
 
-typedef struct node
+typedef struct SNode
 {
     int data;
-    struct node* link;
-}node;
+    struct SNode* link;
+}SNode;
 
 typedef struct Stack
 {
-    node* top;
+    SNode* top;
     Stack()
     {
         this->top = nullptr;
@@ -18,7 +18,7 @@ typedef struct Stack
 
     bool push(int data)
     {
-        node* newItem = new node();
+        auto* newItem = new SNode();
         if(!newItem)
         {
             return false;
@@ -31,7 +31,7 @@ typedef struct Stack
 
     bool pop(int* returnData)
     {
-        node* temp;
+        SNode* temp;
         if(this->top == nullptr)
         {
             return false;
