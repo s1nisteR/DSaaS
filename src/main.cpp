@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Data Structures/stack.h"
-//#include "Data Structures/queue.h"
+#include "Data Structures/queue.h"
 
 int main()
 {
@@ -20,8 +20,15 @@ int main()
     //==================================================
 
     //Testing Queue
-
-
+    Queue mQ;
+    mQ.enqueue(26);
+    mQ.dequeue(&temp);
+    mQ.getFront(&temp);
+    std::cout << "Front: " << temp << std::endl;
+    mQ.enqueue(45);
+    mQ.getFront(&temp);
+    std::cout << "Front: " << temp << std::endl;
+    //===================================================
 
 
     return 0;
