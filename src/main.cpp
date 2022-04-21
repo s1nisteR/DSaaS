@@ -1,35 +1,121 @@
-#include <iostream>
+#include "crow/crow_all.h"
 
 #include "Data Structures/stack.h"
 #include "Data Structures/queue.h"
 
 int main()
 {
-    //Testing Stack
-    int temp;
+    crow::SimpleApp m_app;
+    Stack m_stack;
+    Queue m_queue;
+    bool status = true;
 
-    Stack mS;
-    mS.push(56);
-    mS.push(35);
-    mS.getTop(&temp);
-    std::cout << "Top: " << temp << std::endl;
-    mS.pop(&temp);
-    mS.getTop(&temp);
-    std::cout << "Top: " << temp << std::endl;
+    //============================================STACK=================================================================
+    CROW_ROUTE(m_app, "/stack/push/<int>")([&m_stack, &status](int data){
+        status = m_stack.push(data);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}};
+        }
+    });
 
-    //==================================================
+    CROW_ROUTE(m_app, "/stack/pop")([&m_stack, &status](){
+        int temp;
+        status = m_stack.pop(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
 
-    //Testing Queue
-    Queue mQ;
-    mQ.enqueue(26);
-    mQ.dequeue(&temp);
-    mQ.getFront(&temp);
-    std::cout << "Front: " << temp << std::endl;
-    mQ.enqueue(45);
-    mQ.getFront(&temp);
-    std::cout << "Front: " << temp << std::endl;
-    //===================================================
+    CROW_ROUTE(m_app, "/stack/isempty")([&m_stack, &status](){
+        status = m_stack.isEmpty();
+        return crow::json::wvalue{{"isEmpty", status}};
+    });
 
+    CROW_ROUTE(m_app, "/stack/top")([&m_stack, &status](){
+        int temp;
+        status = m_stack.getTop(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
+    //==================================================================================================================
+
+
+    //===================================================QUEUE==========================================================
+    CROW_ROUTE(m_app, "/queue/enqueue/<int>")([&m_queue, &status](int data){
+        status = m_queue.enqueue(data);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}};
+        }
+    });
+
+    CROW_ROUTE(m_app, "/queue/dequeue")([&m_queue, &status](){
+        int temp;
+        status = m_queue.dequeue(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
+
+    CROW_ROUTE(m_app, "/queue/isempty")([&m_queue, &status](){
+        status = m_queue.isEmpty();
+        return crow::json::wvalue{{"isEmpty", status}};
+    });
+
+    CROW_ROUTE(m_app, "/queue/front")([&m_queue, &status](){
+        int temp;
+        status = m_queue.getFront(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
+
+    CROW_ROUTE(m_app, "/queue/rear")([&m_queue, &status](){
+        int temp;
+        status = m_queue.getRear(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
+    //==================================================================================================================
+
+
+    m_app.port(8080).run();
 
     return 0;
 }
