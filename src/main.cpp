@@ -2,12 +2,14 @@
 
 #include "Data Structures/stack.h"
 #include "Data Structures/queue.h"
+#include "Data Structures/linkedlist.h"
 
 int main()
 {
     crow::SimpleApp m_app;
     Stack m_stack;
     Queue m_queue;
+    LinkedList m_linkedList;
     bool status = true;
 
     //============================================STACK=================================================================
@@ -113,6 +115,35 @@ int main()
         }
     });
     //==================================================================================================================
+
+    CROW_ROUTE(m_app, "/linkedlist/insertFront/<int>")([&m_linkedList, &status](int data){
+        status = m_linkedList.insertAtFront(data);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}};
+        }
+    });
+
+    /*
+    CROW_ROUTE(m_app, "/linkedlist/deleteFront")([&m_linkedList, &status](){
+        int temp;
+        status = m_linkedList.deleteFromFront(&temp);
+        if(!status)
+        {
+            return crow::json::wvalue{{"success", false}};
+        }
+        else
+        {
+            return crow::json::wvalue{{"success", true}, {"value", temp}};
+        }
+    });
+     */
+    //above function will be added later
+
 
 
     m_app.port(8080).run();
